@@ -8,7 +8,7 @@
 
 ![](TP1/2.BP_LED/videos/BP_LED.gif)
 
-#### CTR_4b([code](TP1/2.CTR_4b/CTR_4b.a51))
+#### CTR_4b([code](TP1/3.CTR_4b/CTR_4b.a51))
 
 ![](TP1/3.CTR_4b/videos/CTR_4b.gif)
 
