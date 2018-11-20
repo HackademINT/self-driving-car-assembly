@@ -1,0 +1,98 @@
+MACRO ASSEMBLER GENE                                        11/19/18 17:04:19 PAGE     1
+
+
+WIN32 MACRO ASSEMBLER MA51 V06.04.19OBJECT MODULE PLACED IN C:\USERS\DUBOC_AU\DESKTOP\TP3\GENE.OBJ
+ASSEMBLER INVOKED BY: MA51.EXE C:\USERS\DUBOC_AU\DESKTOP\TP3\GENE.A51 OJ(C:\USERS\DUBOC_AU\DESKTOP\TP3\GENE.OBJ) PIN(C:\RIDE\INC;C:\RIDE\INC\51) PIN(C:\RIDE\INC\51\) EP LINES SYNTAX(ASM51) MOD51 PR(C:\USERS\DUBOC_AU\DESKTOP\TP3\GENE.LST) XR DB PW(80) RB(0) 
+
+LOC     OBJ           LINE    SOURCE
+                         1     ;En-tête
+                         2     
+                         3     ;Déclaration des  variables 
+  00B0                   4     LED		BIT		P3.0
+  0020                   5     ETAT		BIT		20H
+                         6     
+                         7     ;Table des vecteurs
+  0000                   8     			ORG		0000H
+0000    802E             9     			SJMP		DEBUT
+  000B                  10     			ORG		000BH
+000B    02003E          11     			LJMP		INTERRUPT
+  0030                  12     			ORG		0030H
+                        13     			
+                        14     DEBUT: 	
+0030    C2B0            15     			CLR		LED
+0032    D220            16     			SETB		ETAT		
+0034    758901          17     			MOV		TMOD,#1H				;On initialise le timer en mode 1 avec GATE=0 et C/T=0
+0037    75A882          18     			MOV		IE,#10000010B		;Activation du timer 0		
+003A    D28D            19     			SETB		TF0					
+                        20     
+                        21     RPT: 
+003C    80FE            22     F_RPT: 	SJMP		RPT			
+                        23     			
+                        24     FIN: 
+                        25     
+                        26     
+                        27     INTERRUPT: 
+003E    B2B0            28       			CPL 		LED
+0040    302004          29      SI:      JNB		ETAT,SINON        ;si état bas --> wait after 200µs
+0043    783F            30      			MOV		R0,#3FH
+0045    79FF            31      			MOV		R1,#0FFH
+                        32      FSI: 
+0047    202004          33      SINON:   JB			ETAT,FSIN        	;si état haut --> wait after 800µs
+004A    78E7            34       			MOV		R0,#0E7H
+004C    79FC            35      			MOV		R1,#0FCH
+                        36      FSIN: 
+004E    B220            37      			CPL		ETAT					
+0050    C28C            38     			CLR		TR0
+0052    E58A            39     			MOV		A,TL0				   ;1cm
+0054    28              40     			ADD      A,R0					;1cm / On veut compter 50 000 µs donc ffffh-c34fh+07h=3cb7h (7instructions)
+0055    F58A            41     			MOV		TL0,A					;1cm
+0057    E58C            42     			MOV		A,TH0             ;1cm
+0059    39              43     			ADDC		A,R1	            ;1cm
+005A    F58C            44     			MOV		TH0,A			      ;1cm
+005C    D28C            45     			SETB		TR0					;1cm / On démarre le timer
+                        46     			
+005E    32              47     			RETI
+                        48     							
+                        49     			END
+MACRO ASSEMBLER GENE                                        11/19/18 17:04:19 PAGE     0
+
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES             REFERENCES
+
+FSI. . . . . . . .  C ADDR   0047H   A                          32# 
+P3 . . . . . . . .  D ADDR   00B0H   A                          4 
+SINON. . . . . . .  C ADDR   0047H   A                          29 33# 
+TF0. . . . . . . .  B ADDR   0088H.5 A                          19 
+TH0. . . . . . . .  D ADDR   008CH   A                          42 44 
+INTERRUPT. . . . .  C ADDR   003EH   A                          11 27# 
+ETAT . . . . . . .  B ADDR   0024H.0 A                          5# 16 29 33 37 
+IE . . . . . . . .  D ADDR   00A8H   A                          18 
+FSIN . . . . . . .  C ADDR   004EH   A                          33 36# 
+TL0. . . . . . . .  D ADDR   008AH   A                          39 41 
+DEBUT. . . . . . .  C ADDR   0030H   A                          9 14# 
+TMOD . . . . . . .  D ADDR   0089H   A                          17 
+LED. . . . . . . .  B ADDR   00B0H.0 A                          4# 15 28 
+RPT. . . . . . . .  C ADDR   003CH   A                          21# 22 
+TR0. . . . . . . .  B ADDR   0088H.4 A                          38 45 
+F_RPT. . . . . . .  C ADDR   003CH   A                          22# 
+SI . . . . . . . .  C ADDR   0040H   A                          29# 
+FIN. . . . . . . .  C ADDR   003EH   A                          24# 
+
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     52    ----
+   XDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+REGISTER BANK(S) USED : 0 
+
+ASSEMBLY COMPLETE.   0 WARNING(S)   0 ERROR(S)

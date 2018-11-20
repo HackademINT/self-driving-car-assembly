@@ -1,0 +1,67 @@
+MACRO ASSEMBLER TIMER_50MS_PRECIS                           11/19/18 15:12:15 PAGE     1
+
+
+WIN32 MACRO ASSEMBLER MA51 V06.04.19OBJECT MODULE PLACED IN C:\USERS\DUBOC_AU\DESKTOP\TP3\TIMER_50MS_PRECIS.OBJ
+ASSEMBLER INVOKED BY: MA51.EXE C:\USERS\DUBOC_AU\DESKTOP\TP3\TIMER_50MS_PRECIS.A51 OJ(C:\USERS\DUBOC_AU\DESKTOP\TP3\TIMER_50MS_PRECIS.OBJ) PIN(C:\RIDE\INC;C:\RIDE\INC\51) PIN(C:\RIDE\INC\51\) EP LINES SYNTAX(ASM51) MOD51 PR(C:\USERS\DUBOC_AU\DESKTOP\TP3\TIMER_50MS_PRECIS.LST) XR DB PW(80) RB(0) 
+
+LOC     OBJ           LINE    SOURCE
+                         1     ;En-tête
+                         2     
+                         3     ;Déclaration des  variables 
+  00B0                   4     LED		BIT		P3.0
+                         5     
+                         6     
+                         7     ;Table des vecteurs
+  0000                   8     			ORG		0000H
+0000    802E             9     			SJMP		DEBUT
+  0030                  10     			ORG		0030H
+                        11     			
+                        12     DEBUT: 	
+0030    C2B0            13     			CLR		LED		
+0032    758901          14     			MOV		TMOD,#1H				;On initialise le timer en mode 1 avec GATE=0 et C/T=0
+                        15     DEB_TIMER: 	
+0035    758C3C          16     			MOV		TH0,#3CH		
+0038    758AB0          17     			MOV		TL0,#0B0H			;On veut compter 50 000 µs donc ffffh-c34fh=3cb0h
+003B    D28C            18     			SETB		TR0					;On démarre le timer
+003D    C28D            19     			CLR		TF0
+003F    308DFD          20     TQ: 		JNB   	TF0,TQ
+0042    C28C            21     			CLR		TR0
+0044    B2B0            22     			CPL		LED		
+0046    80ED            23     FIN: 		SJMP		DEB_TIMER
+                        24     			
+                        25     			END
+MACRO ASSEMBLER TIMER_50MS_PRECIS                           11/19/18 15:12:15 PAGE     0
+
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES             REFERENCES
+
+P3 . . . . . . . .  D ADDR   00B0H   A                          4 
+TQ . . . . . . . .  C ADDR   003FH   A                          20# 
+TF0. . . . . . . .  B ADDR   0088H.5 A                          19 20 
+DEB_TIMER. . . . .  C ADDR   0035H   A                          15# 23 
+TH0. . . . . . . .  D ADDR   008CH   A                          16 
+TL0. . . . . . . .  D ADDR   008AH   A                          17 
+DEBUT. . . . . . .  C ADDR   0030H   A                          9 12# 
+TMOD . . . . . . .  D ADDR   0089H   A                          14 
+LED. . . . . . . .  B ADDR   00B0H.0 A                          4# 13 22 
+TR0. . . . . . . .  B ADDR   0088H.4 A                          18 21 
+FIN. . . . . . . .  C ADDR   0046H   A                          23# 
+
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     26    ----
+   XDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+REGISTER BANK(S) USED : 0 
+
+ASSEMBLY COMPLETE.   0 WARNING(S)   0 ERROR(S)

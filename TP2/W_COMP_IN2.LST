@@ -1,0 +1,117 @@
+MACRO ASSEMBLER W_COMP_IN2                                  11/19/18 11:46:12 PAGE     1
+
+
+WIN32 MACRO ASSEMBLER MA51 V06.04.19OBJECT MODULE PLACED IN C:\USERS\DUBOC_AU\DESKTOP\TP2\W_COMP_IN2.OBJ
+ASSEMBLER INVOKED BY: MA51.EXE C:\USERS\DUBOC_AU\DESKTOP\TP2\W_COMP_IN2.A51 OJ(C:\USERS\DUBOC_AU\DESKTOP\TP2\W_COMP_IN2.OBJ) PIN(C:\RIDE\INC;C:\RIDE\INC\51) PIN(C:\RIDE\INC\51\) EP LINES SYNTAX(ASM51) MOD51 PR(C:\USERS\DUBOC_AU\DESKTOP\TP2\W_COMP_IN2.LST) XR DB PW(80) RB(0) 
+
+LOC     OBJ           LINE    SOURCE
+                         1     ;En-tête
+                         2     
+                         3     ;Déclaration des  variables 
+  007F                   4     W1_L 		DATA 		7FH			
+  007E                   5     W1_H		DATA		7EH
+  007D                   6     W2_L 		DATA		7DH			
+  007C                   7     W2_H		DATA		7CH
+  00B7                   8     SUP		BIT		P3.7
+  00B6                   9     INF		BIT		P3.6	
+  0003                  10     MASK		DATA		03H
+                        11     
+                        12     ;Table des vecteurs
+  0000                  13     			ORG		0000H
+0000    802E            14     			SJMP		DEBUT
+  0030                  15     			ORG		0030H
+                        16     			
+                        17     DEBUT: 	
+0030    758130          18     			MOV		SP,#30H				;On deplace le SP en 0030h
+0033    120042          19     			LCALL		INIT_COMP
+0036    120062          20     			LCALL		COMP
+0039    A2D5            21     			MOV 		C,F0
+003B    92B7            22     			MOV		SUP,C					; SUP prend la valeur de la carry (1 si c'est supérieur ou égal)
+003D    B3              23     			CPL 		C						; on affecte inv(SUP) à INF (condition <)
+003E    92B6            24     			MOV 		INF, C
+0040    80EE            25     FIN: 		SJMP		DEBUT
+                        26     
+                        27     ;--------------------------------------------
+                        28     
+                        29     INIT_COMP: 		
+                        30     
+0042    E590            31     			MOV		A,P1					;On met P1 dans A pour faciliter les permutations circulaires 
+0044    757D03          32     			MOV      W2_L,#MASK			;On fait un ET entre P1 et le masque qui nous donne W2_L
+0047    527D            33     			ANL		W2_L,A
+                        34     			
+0049    03              35     			RR			A						;Double rotation a droite
+004A    03              36     			RR			A
+004B    757C03          37     			MOV		W2_H,#MASK			;On fait un ET entre P1 et le masque qui nous donne W1_H
+004E    527C            38     			ANL		W2_H,A		
+                        39     			
+0050    C4              40     			SWAP		A						;On fait un swap de A
+0051    757E03          41     			MOV		W1_H,#MASK			;On fait un ET entre P1 et le masque qui nous donne W1_L
+0054    527E            42     			ANL		W1_H,A
+                        43     			
+0056    23              44     			RL			A						;On fait une rotation de la gauche vers la droite de l'entree
+0057    23              45     			RL			A
+0058    757F03          46     			MOV		W1_L,#MASK			;On fait un ET entre P1 et le masque qui nous donne W2_H
+005B    527F            47     			ANL		W1_L,A
+                        48     			
+005D    787E            49     			MOV 		R0,#W1_H
+005F    797C            50     			MOV 		R1,#W2_H
+                        51     			
+0061    22              52     			RET
+                        53     			
+                        54     ;--------------------------------------------
+                        55     COMP: 		
+0062    E6              56     			MOV		A,@R0
+0063    C3              57     			CLR		C
+0064    97              58     			SUBB 		A,@R1
+0065    7005            59     SI:   		JNZ		FSI
+0067    08              60     			INC		R0
+0068    09              61     			INC 		R1
+0069    E6              62     			MOV 		A,@R0
+006A    C3              63     			CLR		C
+006B    97              64     			SUBB		A,@R1
+                        65     FSI: 
+006C    92D5            66     			MOV		F0,C
+006E    22              67     			RET
+                        68     
+                        69     			END
+MACRO ASSEMBLER W_COMP_IN2                                  11/19/18 11:46:12 PAGE     0
+
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES             REFERENCES
+
+P1 . . . . . . . .  D ADDR   0090H   A                          31 
+FSI. . . . . . . .  C ADDR   006CH   A                          59 65# 
+INIT_COMP. . . . .  C ADDR   0042H   A                          19 29# 
+P3 . . . . . . . .  D ADDR   00B0H   A                          8 9 
+SP . . . . . . . .  D ADDR   0081H   A                          18 
+MASK . . . . . . .  D ADDR   0003H   A                          10# 32 37 41 46 
+COMP . . . . . . .  C ADDR   0062H   A                          20 55# 
+W1_H . . . . . . .  D ADDR   007EH   A                          5# 41 42 49 
+W2_H . . . . . . .  D ADDR   007CH   A                          7# 37 38 50 
+W1_L . . . . . . .  D ADDR   007FH   A                          4# 46 47 
+DEBUT. . . . . . .  C ADDR   0030H   A                          14 17# 25 
+W2_L . . . . . . .  D ADDR   007DH   A                          6# 32 33 
+F0 . . . . . . . .  B ADDR   00D0H.5 A                          21 66 
+SUP. . . . . . . .  B ADDR   00B0H.7 A                          8# 22 
+SI . . . . . . . .  C ADDR   0065H   A                          59# 
+FIN. . . . . . . .  C ADDR   0040H   A                          25# 
+INF. . . . . . . .  B ADDR   00B0H.6 A                          9# 24 
+
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     65    ----
+   XDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+REGISTER BANK(S) USED : 0 
+
+ASSEMBLY COMPLETE.   0 WARNING(S)   0 ERROR(S)

@@ -1,0 +1,92 @@
+LX51 CODE BANKING LINKER/LOCATOR V05.01.33                                     11/19/18  17:04:19
+WIN32 LX51 CODE BANKING LINKER/LOCATOR V05.01.33,  INVOKED BY:
+LX51 c:\users\duboc_au\desktop\tp3\gene.obj , c:\users\duboc_au\desktop\tp3\tp3.DTP TO(c:\users\d&
+uboc_au\desktop\tp3\tp3.AOF) PR(c:\users\duboc_au\desktop\tp3\tp3.m51) XSIZE(65536) CSIZE(65536) &
+RS(256) RSI(128) IX MAP 
+
+
+INPUT MODULES INCLUDED
+  C:\USERS\DUBOC_AU\DESKTOP\TP3\GENE.OBJ(GENE)
+  C:\USERS\DUBOC_AU\DESKTOP\TP3\TP3.DTP(_WKRDTP_)
+
+
+LINK MAP OF MODULE: C:\USERS\DUBOC_AU\DESKTOP\TP3\TP3.AOF (TP3)
+
+    TYPE     BASE       LENGTH    RELOCATION     SEGMENT NAME
+    ----     ----       ------    ----------     ------------
+
+    * * * * * * *   DATA/IDATA    M E M O R Y   * * * * * * *
+    REG      0000H      0008H     ABSOLUTE       "REG BANK 0"
+
+    * * * * * * *   CODE          M E M O R Y   * * * * * * *
+    CODE     0000H      0002H     ABSOLUTE       
+             0002H      0009H                    *** GAP ***
+    CODE     000BH      0003H     ABSOLUTE       
+             000EH      0022H                    *** GAP ***
+    CODE     0030H      002FH     ABSOLUTE       
+
+EXECUTABLE SUMMARY:
+-------------------
+    Total INTERNAL RAM storage requirement:  0008H (8)
+    Total EXTERNAL RAM storage requirement:  0000H (0)
+    Total     CODE     storage requirement:  0034H (52)
+Note:  Summary does not include dynamic stack requirements
+
+
+REFERENCE MAP OF MODULE: C:\USERS\DUBOC_AU\DESKTOP\TP3\TP3.AOF (TP3)
+
+SEGMENT                           BI_GROUP            DT_GROUP             ID_GROUP             XD_GROUP
+  +--> CALLED SEGMENT          START    LENGTH     START    LENGTH     START    LENGTH     START    LENGTH
+--------------------------------------------------------------------------------------
+
+SYMBOL TABLE FOR C:\USERS\DUBOC_AU\DESKTOP\TP3\TP3.AOF(GENE)
+-------------------------------------------------------------
+
+    VALUE              TYPE               NAME
+    -----              ----               ----
+
+	-------            MODULE             GENE
+	C:0047H            SYMBOL             FSI
+	C:0047H            SYMBOL             SINON
+	C:003EH            SYMBOL             INTERRUPT
+	B:0020H            SYMBOL             ETAT
+	C:004EH            SYMBOL             FSIN
+	C:0030H            SYMBOL             DEBUT
+	B:00B0H            SYMBOL             LED
+	C:003CH            SYMBOL             RPT
+	C:003CH            SYMBOL             F_RPT
+	C:0040H            SYMBOL             SI
+	C:003EH            SYMBOL             FIN
+	C:0000H            LINE#              9
+	C:000BH            LINE#              11
+	C:0030H            LINE#              15
+	C:0032H            LINE#              16
+	C:0034H            LINE#              17
+	C:0037H            LINE#              18
+	C:003AH            LINE#              19
+	C:003CH            LINE#              22
+	C:003EH            LINE#              28
+	C:0040H            LINE#              29
+	C:0043H            LINE#              30
+	C:0045H            LINE#              31
+	C:0047H            LINE#              33
+	C:004AH            LINE#              34
+	C:004CH            LINE#              35
+	C:004EH            LINE#              37
+	C:0050H            LINE#              38
+	C:0052H            LINE#              39
+	C:0054H            LINE#              40
+	C:0055H            LINE#              41
+	C:0057H            LINE#              42
+	C:0059H            LINE#              43
+	C:005AH            LINE#              44
+	C:005CH            LINE#              45
+	C:005EH            LINE#              47
+	-------            ENDMOD             GENE
+	N:00E8H            PUBLIC             TIM1_INIT
+	N:0010H            PUBLIC             SIZEBUFPRINTF
+	N:0100H            PUBLIC             XSTACKLEN
+	N:0001H            PUBLIC             _LINKERSYMB_DUMMY_
+
+LINK/LOCATE RUN COMPLETE,  NO ERROR FOUND.
+
