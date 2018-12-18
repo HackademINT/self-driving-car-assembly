@@ -4,10 +4,10 @@
 
 ### Goals:
 
-- make a self driving [car](Project/images/car_from_sky.png) that could follow a black line.
+- make a self driving [car](Project/images/car_from_sky.jpg) that could follow a black line.
 - light a siren and a laser on receiving a 4 (ASCII) on one of the sensors.
 - increment of a counter with update of the LED display on receipt of ASCII characters D/C/G on the sensor.
-- establish communication between the slave card and the master card to send stop and start orders.
+- establish communication between the [slave card](Project/slave.a51) and the [master card](Project/master.a51) to send stop and start orders.
 - increment of the number of laps realized at the reception of zero in ascii.
 
 ![](Project/videos/car.gif)
@@ -26,3 +26,6 @@
 
 ### TP4: [README](TP4/README.md)
 - Message display on the LCD screen
+
+### TP5: [README](TP5/README.md)
+- Data reception and emission through the use of serial ports
