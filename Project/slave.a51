@@ -1,25 +1,25 @@
-  ;declaration
+;declaration
 RGS				bit	P0.5
-RW					bit	P0.6
-E					bit	P0.7
+RW				bit	P0.6
+E				bit	P0.7
 LED				bit	P1.0
 Laser				bit	P1.2
-Sirene			bit	P1.3
-DATABUS			equ 	P2
-BUSY_FLAG		bit	P2.7
+Sirene			        bit	P1.3
+DATABUS			        equ 	P2
+BUSY_FLAG		        bit	P2.7
 CNT				equ	R7
 ; R6 => utilisé comme registre tampon
 MARCHE_ARRET	bit	20h
 
-RECU				data	7Fh				
+RECU			data	7Fh				
 NB_TOUR			data	7Eh
-DDRAM_NB_TOUR	equ	8Bh	
-NB_TIR_DROITE	data	7Dh
-DDRAM_DROITE	equ	11000101b	
-NB_TIR_CENTRE	data	7Ch
-DDRAM_CENTRE	equ	11001001b	
-NB_TIR_GAUCHE	data	7Bh
-DDRAM_GAUCHE	equ	11001101b	
+DDRAM_NB_TOUR	        equ	8Bh	
+NB_TIR_DROITE	        data	7Dh
+DDRAM_DROITE	        equ	11000101b	
+NB_TIR_CENTRE	        data	7Ch
+DDRAM_CENTRE	        equ	11001001b	
+NB_TIR_GAUCHE	        data	7Bh
+DDRAM_GAUCHE	        equ	11001101b	
 
 MAGIC_INIT		equ	00110000b
 CFG_5x8			equ	00111000b
@@ -30,42 +30,42 @@ CFG_MODESET		equ	00000110b
 
 ;valeurs utiles pour le LCD
 debut_ligne		equ	11000000b
-saut_de_ligne	equ	10000000b 
+saut_de_ligne	        equ	10000000b 
 
 
 ;vtable
-					org	0000h
-					SJMP	debut
-					org	0023h							;adresse de l'interruption série		
-					LJMP	interrupt					;interrupt i.e. RI=1 flag de réception
-					org	0030h
+                        org	0000h
+                        SJMP	debut
+                        org	0023h			      ;adresse de l'interruption série		
+                        LJMP	interrupt		      ;interrupt i.e. RI=1 flag de réception
+                        org	0030h
 
 ;Définition des chaines de caractère à envoyer
-ligne_H:			DB		'  Tour(s): 0/3  ',0
-ligne_L:			DB		'   D=0 C=0 G=0  ',0
+ligne_H:		DB	'  Tour(s): 0/3  ',0
+ligne_L:		DB	'   D=0 C=0 G=0  ',0
 			
 ;main
 debut:			MOV	SP,#2Fh
-					LCALL	init
-rpt: 				SJMP	rpt		
+			LCALL	init
+rpt: 			SJMP	rpt		
 fin:		
 
 ;==============================================================================================================
 
 init:
-				CLR		LASER							;on coupe le laser au démarrage
-				CLR		SIRENE						;on coupe la sirène au démarrage
-				CLR		MARCHE_ARRET				;On met le marche arrêt à 0
-				SETB		LED							;On éteint la LED
-				MOV		RECU,#00h					;init de la donnee recu
-				MOV		NB_TOUR,#30h				;init du nombre de tours à 0 (ascii)
+				CLR		LASER				;on coupe le laser au démarrage
+				CLR		SIRENE				;on coupe la sirène au démarrage
+				CLR		MARCHE_ARRET		        ;On met le marche arrêt à 0
+				SETB		LED				;On éteint la LED
+				MOV		RECU,#00h			;init de la donnee recu
+				MOV		NB_TOUR,#30h			;init du nombre de tours à 0 (ascii)
 				MOV		NB_TIR_DROITE,#30h		;init du nombre de tir à droite à 0 (ascii)
 				MOV		NB_TIR_CENTRE,#30h		;init du nombre de tir à centre à 0 (ascii)
 				MOV		NB_TIR_GAUCHE,#30h		;init du nombre de tir à gauche à 0 (ascii)
 				MOV		PCON,#0
 				
 				MOV		SCON,#01010000b			;On initialise la liaison série, asynchrone 1200Bd sans parité 
-				MOV		IE,#10010000b				;validation de l'interruption sur la série
+				MOV		IE,#10010000b			;validation de l'interruption sur la série
 				MOV		PCON,#0h						
 				
 				MOV		TMOD,#00100001b
@@ -95,31 +95,31 @@ init:
 ;interrupt i.e. RI=1 flag de reception
 interrupt:
 						PUSH		Acc
-						JNB		RI,fsi_recu						;gestion de la deuxième interruption déclenchée par l'envoie de données à la carte maitre sur la liaison série
+						JNB		RI,fsi_recu	  ;gestion de la deuxième interruption déclenchée par l'envoie de données à la carte maitre sur la liaison série
 						CLR		RI						
   						MOV		A,SBUF  
-;si_parite:  		JB			P,fsi_parite					;test du bit de parité	
-						CLR		ACC.7								;clear du bit de poids fort = bit de parité
-						CJNE		A,RECU,si_recu					;On traite la valeur reçue si elle est différente de la précédente reçue
-						SJMP		fsi_recu;						;On saute la mise à jour si la valeur n'a pas été déjà reçue	
+si_parite:  		                        JB		P,fsi_parite	   ;test du bit de parité	
+						CLR		ACC.7		   ;clear du bit de poids fort = bit de parité
+						CJNE		A,RECU,si_recu	   ;On traite la valeur reçue si elle est différente de la précédente reçue
+						SJMP		fsi_recu;	   ;On saute la mise à jour si la valeur n'a pas été déjà reçue	
 si_recu:				
-si_egal_0:			CJNE 		A,#'0',si_egal_4
+si_egal_0:			                CJNE 		A,#'0',si_egal_4
 						LCALL		cas_0
-fsi_egal_0:			LJMP		fcase
+fsi_egal_0:			                LJMP		fcase
 
-si_egal_4:			CJNE 		A,#'4',si_egal_D
+si_egal_4:		                    	CJNE 		A,#'4',si_egal_D
 						LCALL		cas_4
-fsi_egal_4:			LJMP		fcase
+fsi_egal_4:	                    		LJMP		fcase
 
-si_egal_D:			CJNE 		A,#'D',si_egal_C
+si_egal_D:	                    		CJNE 		A,#'D',si_egal_C
 						LCALL		cas_D	
-fsi_egal_D:			LJMP		fcase
+fsi_egal_D:	                  		LJMP		fcase
 
-si_egal_C:			CJNE 		A,#'C',si_egal_G
+si_egal_C:		                  	CJNE 		A,#'C',si_egal_G
 						LCALL		cas_C
-fsi_egal_C:			LJMP		fcase
+fsi_egal_C:	                		LJMP		fcase
 
-si_egal_G:			CJNE 		A,#'G',fcase
+si_egal_G:		                  	CJNE 		A,#'G',fcase
 						LCALL		cas_G
 fsi_egal_G:		
 fcase:	               	 
@@ -133,34 +133,34 @@ fsi_parite:
 
 ;Le caractère envoyé est contenu dans l'accumulateur lors de l'appel à cette fonction
 cas_0:
-si_MA_0:			JB			MARCHE_ARRET,sinon_MA_0
+si_MA_0:	          		JB	        MARCHE_ARRET,sinon_MA_0
 					MOV		R6,NB_TOUR
 					CJNE		R6,#'3',si_tour_diff_3			 
 					SJMP 		fsi_tour_diff_3				
 si_tour_diff_3:
 					;envoyer "G" a la carte maitre
-				   MOV		SBUF,#'G'	   		;On charge la donnée dans le serial buffer
-tq_send_G:	   JNB		TI,tq_send_G			;On attend la fin de l'envoie du message
+				        MOV		SBUF,#'G'	   		;On charge la donnée dans le serial buffer
+tq_send_G:	                        JNB		TI,tq_send_G			;On attend la fin de l'envoie du message
 					CLR		TI
-					CLR		LED						;test start led
+					CLR		LED				;test start led
 					SETB 		MARCHE_ARRET	
 fsi_tour_diff_3:					
 finsi_MA_0:
 					LJMP 		fsn_MA_0
 sinon_MA_0:		
 					;envoyer "S" à la carte maitre
-					MOV		SBUF,#'S'	   					;On charge la donnée dans le serial buffer
-tq_send_S:		JNB		TI,tq_send_S						;On attend la fin de l'envoie du message
+					MOV		SBUF,#'S'	   		;On charge la donnée dans le serial buffer
+tq_send_S:	                	JNB		TI,tq_send_S			;On attend la fin de l'envoie du message
 					CLR		TI
 					CLR		MARCHE_ARRET
-					MOV		A,#0h									;permet de recevoir un deuxième zéro après la tempo de 2s puisque MOV RECU,A ensuite
+					MOV		A,#0h				;permet de recevoir un deuxième zéro après la tempo de 2s puisque MOV RECU,A ensuite
 					INC		NB_TOUR
 					MOV		DATABUS,#DDRAM_NB_TOUR
 					LCALL		LCD_Code
 					MOV		DATABUS,NB_TOUR
 					LCALL		LCD_DATA	
 					MOV		R6,#100
-att_depart:		LCALL		timer_50ms
+att_depart:		                LCALL		timer_50ms
 					DJNZ		R6,att_depart
 fsn_MA_0:
 					RET
@@ -169,8 +169,8 @@ fsn_MA_0:
 
 cas_4:	
 					MOV		R6,RECU
-si_old_0:		CJNE		R6,#'0',fsi_old_0 
-					SETB		LED						;test stop led
+si_old_0:		                CJNE		R6,#'0',fsi_old_0 
+					SETB		LED				;test stop led
 					SETB		LASER        
 					SETB		SIRENE
 fsi_old_0:
@@ -211,11 +211,11 @@ cas_G:
 ;==============================================================================================================
 
 LCD_MSG:
-            	PUSH	ACC
-            	MOV 	CNT,#0
-tq_string:    	MOV   A,CNT
-			   	MOVC	A,@A+DPTR
- 			   	JZ		tq_string_fin
+            	                        PUSH	ACC
+            	                        MOV 	CNT,#0
+tq_string:    	                        MOV   A,CNT
+			   	        MOVC	A,@A+DPTR
+ 			   	        JZ		tq_string_fin
 					MOV	DATABUS,A
 					LCALL	LCD_DATA
 					INC 	CNT
@@ -232,12 +232,12 @@ LCD_BF:
 					SETB	RW
 					CLR	RGS
 					
-tq_busy:			CLR	E							;tq busy_flag==1, on attend
+tq_busy:			        CLR	E			        ;tq busy_flag==1, on attend
 					SETB	E
-					JB		BUSY_FLAG,tq_busy	
+					JB      BUSY_FLAG,tq_busy	
 tq_busy_fin:					
 					CLR	E	
-LCD_BF_fin:		RET											
+LCD_BF_fin:		                RET											
 
 ;==============================================================================================================
 					
@@ -259,14 +259,14 @@ LCD_DATA:
 					SETB	E
 					CLR	E
 					LCALL	LCD_BF
-LCD_DATA_fin:	RET
+LCD_DATA_fin:	                        RET
 
 ;==============================================================================================================
 
 LCD_INIT:
-               CLR	RGS
-               CLR	RW
-               MOV	R6,#3
+                                        CLR	RGS
+                                        CLR	RW
+                                        MOV	R6,#3
 rpt3x:
 					LCALL	timer_50ms
 					MOV	DATABUS,#MAGIC_INIT
