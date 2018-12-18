@@ -18,6 +18,9 @@
 - State change of a led on a falling edge
 - 4-bit and 8-bit display using I / O ports for increment and decrement
 
+### TP2: [README](TP2/README.md)
+- use of interrupt vectors to make a comparison between two numbers
+
 
 
 
