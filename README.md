@@ -4,7 +4,7 @@
 
 ### Goals:
 
-- make a self driving car that could follow a black line.
+- make a self driving [car](Project/images/car_from_sky.png) that could follow a black line.
 - light a siren and a laser on receiving a 4 (ASCII) on one of the sensors.
 - increment of a counter with update of the LED display on receipt of ASCII characters D/C/G on the sensor.
 - establish communication between the slave card and the master card to send stop and start orders.
@@ -23,3 +23,6 @@
 
 ### TP3: [README](TP3/README.md)
 - Build a 50 milliseconds timer and a cyclic report generator
+
+### TP4: [README](TP4/README.md)
+- Message display on the LCD screen
