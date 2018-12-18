@@ -20,30 +20,30 @@ rpt:
 			LCALL		init_comp
 			LCALL		comp
 			MOV 		C,F0
-			MOV		SUP,C					; SUP prend la valeur de la carry (1 si c'est supérieur ou égal)
-			CPL 		C						; on affecte inv(SUP) à INF (condition <)
+			MOV		SUP,C				; SUP prend la valeur de la carry (1 si c'est supérieur ou égal)
+			CPL 		C				; on affecte inv(SUP) à INF (condition <)
 			MOV 		INF, C
-jsq:		SJMP		rpt
+jsq:		        SJMP		rpt
 fin:
 ;--------------------------------------------
 
 init_comp:		
 
-			MOV		A,P1					;On met P1 dans A pour faciliter les permutations circulaires 
-			MOV      W2_L,#MASK			;On fait un ET entre P1 et le masque qui nous donne W2_L
+			MOV		A,P1				;On met P1 dans A pour faciliter les permutations circulaires 
+			MOV             W2_L,#MASK			;On fait un ET entre P1 et le masque qui nous donne W2_L
 			ANL		W2_L,A
 			
-			RR			A						;Double rotation a droite
-			RR			A
+			RR		A				;Double rotation a droite
+			RR		A				;Double rotation a droite
 			MOV		W2_H,#MASK			;On fait un ET entre P1 et le masque qui nous donne W1_H
 			ANL		W2_H,A		
 			
-			SWAP		A						;On fait un swap de A
+			SWAP		A				;On fait un swap de A
 			MOV		W1_H,#MASK			;On fait un ET entre P1 et le masque qui nous donne W1_L
 			ANL		W1_H,A
 			
-			RL			A						;On fait une rotation de la gauche vers la droite de l'entree
-			RL			A
+			RL		A	          		;On fait une rotation de la gauche vers la droite de l'entree
+			RL		A	          		;On fait une rotation de la gauche vers la droite de l'entree
 			MOV		W1_L,#MASK			;On fait un ET entre P1 et le masque qui nous donne W2_H
 			ANL		W1_L,A
 			
@@ -57,7 +57,7 @@ comp:
 			MOV		A,@R0
 			CLR		C
 			SUBB 		A,@R1
-si:  		JNZ		fsi
+si:  		        JNZ		fsi
 			INC		R0
 			INC 		R1
 			MOV 		A,@R0
@@ -68,4 +68,3 @@ fsi:
 			RET
 
 			end
-			 

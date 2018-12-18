@@ -20,14 +20,14 @@ debut:
 			MOV 		C,F0
 			MOV		RES,C
 
-fin:		SJMP		debut
+fin:		        SJMP		debut
 
 ;--------------------------------------------
 comp:		
 			MOV		A,@R0
 			CLR		C
 			SUBB 		A,@R1
-si:  		JNZ		fsi
+si:  		        JNZ		fsi
 			INC		R0
 			INC 		R1
 			MOV 		A,@R0
@@ -38,4 +38,3 @@ fsi:
 			RET
 
 			end
-			

@@ -1,4 +1,4 @@
- ;En-tête
+;En-tête
 
 ;Déclaration des  variables 
 W1_L 		data 		7Fh			
@@ -19,7 +19,7 @@ debut:
 			MOV		R0,W1_H
 			MOV		R1,W2_H
 			LCALL		routine
-si:  		JNZ		fsi
+si:  		        JNZ		fsi
 			
 			MOV		R0,W1_L
 			MOV		R1,W2_L
@@ -27,7 +27,7 @@ si:  		JNZ		fsi
 fsi:
 			MOV		F0,C
 			
-fin:		SJMP		debut
+fin:	          	SJMP		debut
 			 	
 routine:			
 			MOV		A,R0

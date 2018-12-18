@@ -17,12 +17,12 @@ debut:
 			MOV		A,W1_H
 			CLR		C
 			SUBB 		A,W2_H
-si:  		JNZ		fsi
+si:  		        JNZ		fsi
 			MOV 		A,W1_L
 			CLR		C
 			SUBB		A,W2_L
 fsi:
 			MOV		RES,C
-fin:		SJMP		debut
+fin:		        SJMP		debut
 			end
 			
