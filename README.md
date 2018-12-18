@@ -2,6 +2,16 @@
 
 ## Project
 
+### Goals:
+
+- make a self driving car that could follow a black line.
+- light a siren and a laser on receiving a 4 (ASCII) on one of the sensors.
+- increment of a counter with update of the LED display on receipt of ASCII characters D/C/G on the sensor.
+- establish communication between the slave card and the master card to send stop and start orders.
+- increment of the number of laps realized at the reception of zero in ascii.
+
+![](Project/videos/car.gif)
+
 ## Tutorials (TP in french)
 
 ### TP1: [README](TP1/README.md)
