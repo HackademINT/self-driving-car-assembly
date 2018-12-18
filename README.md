@@ -29,3 +29,13 @@
 
 ### TP5: [README](TP5/README.md)
 - Data reception and emission through the use of serial ports
+
+## Copyright:
+
+### Master
+- Teo COUPRIE DIAZ
+- Dylan SOTON
+
+### Slave
+- Victor VEDIE
+- Aurélien DUBOC
